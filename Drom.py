@@ -1,5 +1,6 @@
 import numpy as np
-import os, subprocess
+import os
+import subprocess
 
 PREAMBLE = r"""\documentclass[tikz]{standalone}
 \begin{document}
@@ -80,6 +81,13 @@ class hex:
     def add_hex_bottom_left(self):
         start_vert = self.get_vert(5)
         h = hex(start_vert, 3)
+        return h
+
+    def add_hex(self, num):
+        start_vert_num = [0, 1, 2, 4, 5, 5]
+        end_vert_num = [4, 5, 0, 0, 1, 3]
+        start_vert = self.get_vert(start_vert_num[num])
+        h = hex(start_vert, end_vert_num)
         return h
 
 

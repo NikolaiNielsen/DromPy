@@ -162,13 +162,20 @@ def write_latex(list_of_hexes, print_index=True, print_edges=False):
 
 
 def main():
-    loop = True
+    """
+    Initiates the process of creating a Drom. Requires pdflatex to be installed
+    and accessible with the subprocess module. Currently tested on Debian.
+    """
+    # Create the starting hex and initialize all variables
     start_hex = hex()
     list_of_hexes = [start_hex]
     current_hex_num = 0
     current_hex = list_of_hexes[current_hex_num]
+
+    # Create the starting Drom, print the help and start the loop
     write_latex(list_of_hexes, print_index=True, print_edges=0)
     print_help()
+    loop = True
     while loop:
         i = input("> ")
         i = i.lower()
@@ -180,13 +187,18 @@ def main():
             print_help()
 
         elif i in ["0", "1", "2", "3", "4", "5"]:
+            # Adds a new hex
             num = int(i)
             d = [current_hex.add_hex_under, current_hex.add_hex_bottom_right,
                  current_hex.add_hex_top_right, current_hex.add_hex_over,
                  current_hex.add_hex_top_left, current_hex.add_hex_bottom_left]
             new_hex = d[num]()
+
+            # Sets the "last_hex" stuff. Used whem removing hexes
             last_hex = current_hex
             last_hex_num = current_hex_num
+
+            # Add the new hex, update current hex, and update Drom
             list_of_hexes.append(new_hex)
             current_hex_num = len(list_of_hexes)-1
             current_hex = new_hex
@@ -205,31 +217,43 @@ def main():
                 current_hex = list_of_hexes[current_hex_num]
                 write_latex(list_of_hexes, print_edges=I)
             except Exception as e:
+                # Sorry for the Pokèmon exception...
                 print("Couldn't interpret input. Back to main menu\n")
 
         elif i == "print_full":
+            # Generate the full/final pdf
             write_latex(list_of_hexes, print_index=False, print_edges=None)
 
         elif i == "show_all":
+            # Generate pdf showing hex indices and current hex edges
             write_latex(list_of_hexes, print_edges=current_hex_num)
 
         elif i == "remove_last":
+            # Removes the last placed hex
             list_of_hexes.pop()
             current_hex_num = last_hex_num
             current_hex = last_hex
             write_latex(list_of_hexes, print_edges=current_hex_num)
 
         elif i == "remove":
+            # Remove a selected hex
             print("which hex do you want to remove?")
             I = input("> ")
             try:
                 I = int(I)
                 list_of_hexes.pop(I)
                 if I == current_hex_num:
+                    # If the selected hex is the current hex, then we change
+                    # the current hex to the last current hex
                     current_hex = last_hex
+
+                # Find the new current_hex_num (it might have changed, either
+                # if the removed hex was the current one, or if the current hex
+                # had a higher index than the removed hex.)
                 current_hex_num = list_of_hexes.index(current_hex)
                 write_latex(list_of_hexes, print_edges=current_hex_num)
             except Exception as e:
+                # Again with the Pokèmon exception. Soz.
                 print("Couldn't interpret input. Back to main menu\n")
 
         else:
@@ -252,18 +276,6 @@ def print_help():
     print("help:        Show this message")
     print("quit:        Quits the program")
 
-start_hex = hex()
-
-# h1 = start_hex.add_hex_under()
-# # h2 = h1.add_hex_bottom_right()
-# # h3 = h2.add_hex_top_right()
-# # h4 = h3.add_hex_over()
-# # h5 = h4.add_hex_top_left()
-# # h6 = h4.add_hex_bottom_left()
-
-
-# list_of_hexes = [start_hex] #, h1, h2, h3, h4, h5, h6]
-# write_latex(list_of_hexes, print_edges=0)
 
 if __name__ == "__main__":
     main()

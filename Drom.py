@@ -199,12 +199,16 @@ def main():
             print("Changing hex. Which hex do you want to switch to?")
             I = input("> ")
             try:
-                I = int(i)
+                I = int(I)
                 current_hex_num = I
                 current_hex = list_of_hexes[current_hex_num]
+                write_latex(list_of_hexes, print_edges=I)
             except Exception as e:
                 print("Couldn't interpret input. Back to main menu")
-            
+
+        elif i == "print_full":
+            write_latex(list_of_hexes, print_index=False, print_edges=None)
+
         else:
             print("input not recognized. Try again\n")
 

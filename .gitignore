@@ -25,3 +25,6 @@ __pycache__/
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+
+# We don't actually want the Drom.tex file either
+*.tex

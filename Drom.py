@@ -136,8 +136,8 @@ class hex:
         return self.edge_tex
 
 
-def write_latex(list_of_hexes, print_index=True, print_edges=False):
-    filename = 'Drom'
+def write_latex(list_of_hexes, filename="Drom", print_index=True,
+                print_edges=False):
     count = 0
     with open(f"{filename}.tex", 'w') as f:
         f.write(PREAMBLE)
@@ -181,6 +181,8 @@ def main():
         i = i.lower()
 
         if i == "quit":
+            # Prints full Drom and quits program.
+            write_latex(list_of_hexes, print_index=False, print_edges=None)
             loop = False
 
         elif i == "help":
@@ -256,6 +258,13 @@ def main():
                 # Again with the Pokèmon exception. Soz.
                 print("Couldn't interpret input. Back to main menu\n")
 
+        elif i == "backup":
+            print("What do you want the filename to be?")
+            print("(don't include file extension)")
+            filename = input("> ")
+            write_latex(list_of_hexes, filename, print_index=False,
+                        print_edges=None)
+
         else:
             print("input not recognized. Try again\n")
 
@@ -273,8 +282,9 @@ def print_help():
     print("remove_last: deletes the last placed hex")
     print("remove:      initiates removing of a hex")
     print("change_hex:  Initiates the changing of the current hex")
+    print("backup:      starts backup process")
     print("help:        Show this message")
-    print("quit:        Quits the program")
+    print("quit:        prints the full drom and quits the program")
 
 
 if __name__ == "__main__":

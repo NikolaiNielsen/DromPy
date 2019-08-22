@@ -165,23 +165,78 @@ def main():
     loop = True
     start_hex = hex()
     list_of_hexes = [start_hex]
-    current_hex = 0
-
+    current_hex_num = 0
+    current_hex = list_of_hexes[current_hex_num]
+    write_latex(list_of_hexes, print_index=True, print_edges=0)
+    print_help()
     while loop:
-        i = input()
+        i = input("> ")
+        i = i.lower()
 
-        if i.lower() == "quit":
+        if i == "quit":
             loop = False
+
+        elif i == "help":
+            print_help()
+
+        elif i in ["0", "1", "2", "3", "4", "5"]:
+            num = int(i)
+            d = [current_hex.add_hex_under, current_hex.add_hex_bottom_right,
+                 current_hex.add_hex_top_right, current_hex.add_hex_over,
+                 current_hex.add_hex_top_left, current_hex.add_hex_bottom_left]
+            new_hex = d[num]()
+
+            list_of_hexes.append(new_hex)
+            current_hex_num = len(list_of_hexes)-1
+            current_hex = new_hex
+            write_latex(list_of_hexes, print_index=True,
+                        print_edges=current_hex_num)
+
+        elif i == "print":
+            current_hex._print_verts()
+
+        elif i == "change_hex":
+            print("Changing hex. Which hex do you want to switch to?")
+            I = input("> ")
+            try:
+                I = int(i)
+                current_hex_num = I
+                current_hex = list_of_hexes[current_hex_num]
+            except Exception as e:
+                print("Couldn't interpret input. Back to main menu")
+            
+        else:
+            print("input not recognized. Try again\n")
+
+
+def print_help():
+    print("Welcome to the Drom Editor. Input one of the following commands:")
+    print("0: Create a hex below the current")
+    print("1: Create a hex to the bottom right of the current")
+    print("2: Create a hex to the top right of the current")
+    print("3: Create a hex above the current")
+    print("4: Create a hex to the top left of the current")
+    print("5: Create a hex to the bottom left of the current")
+    print("show_all: show the index of all hexes")
+    print("print_full: Print the full Drom with no indices")
+    print("remove_last: deletes the last placed hex")
+    print("remove: initiates removing of a hex")
+    print("change_hex: Initiates the changing of the current hex")
+    print("help: Show this message")
+    print("quit: Quits the program")
 
 start_hex = hex()
 
-h1 = start_hex.add_hex_under()
-# h2 = h1.add_hex_bottom_right()
-# h3 = h2.add_hex_top_right()
-# h4 = h3.add_hex_over()
-# h5 = h4.add_hex_top_left()
-# h6 = h4.add_hex_bottom_left()
+# h1 = start_hex.add_hex_under()
+# # h2 = h1.add_hex_bottom_right()
+# # h3 = h2.add_hex_top_right()
+# # h4 = h3.add_hex_over()
+# # h5 = h4.add_hex_top_left()
+# # h6 = h4.add_hex_bottom_left()
 
 
-list_of_hexes = [start_hex] #, h1, h2, h3, h4, h5, h6]
-write_latex(list_of_hexes, print_edges=0)
+# list_of_hexes = [start_hex] #, h1, h2, h3, h4, h5, h6]
+# write_latex(list_of_hexes, print_edges=0)
+
+if __name__ == "__main__":
+    main()

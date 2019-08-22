@@ -121,7 +121,7 @@ class hex:
         h = hex(start_vert, end_vert_num)
         return h
 
-    def print_sides(self):
+    def print_edges(self):
         """
         Creates and returns TiKZ code for numbering the edges of the hex.
         """
@@ -129,7 +129,7 @@ class hex:
         self.edge_centers = self.edge_centers * 0.5
         self.edge_tex = []
         for n, edge in enumerate(self.edge_centers):
-            s = r'\node[draw] at (' + \
+            s = r'\node at (' + \
                 f'{edge[0]}, {edge[1]}'
             s = s + ') {' + f'{n}' + '};'
             self.edge_tex.append(s)
@@ -146,8 +146,8 @@ def write_latex(list_of_hexes, print_index=True, print_edges=False):
             if print_index:
                 f.write(h.create_center_tex(count) + "\n")
             count += 1
-        if print_edges:
-            for edge in list_of_hexes[print_edges].print_edges:
+        if isinstance(print_edges, int):
+            for edge in list_of_hexes[print_edges].print_edges():
                 f.write(edge + "\n")
         f.write(POSTAMBLE)
     try:
@@ -184,4 +184,4 @@ h1 = start_hex.add_hex_under()
 
 
 list_of_hexes = [start_hex] #, h1, h2, h3, h4, h5, h6]
-write_latex(list_of_hexes)
+write_latex(list_of_hexes, print_edges=0)

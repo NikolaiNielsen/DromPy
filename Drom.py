@@ -143,6 +143,19 @@ def write_latex(list_of_hexes, print_index=True):
     except:
         pass
 
+
+def main():
+    loop = True
+    start_hex = hex()
+    list_of_hexes = [start_hex]
+    current_hex = 0
+
+    while loop:
+        i = input()
+
+        if i.lower() == "quit":
+            loop = False
+
 start_hex = hex()
 
 h1 = start_hex.add_hex_under()

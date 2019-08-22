@@ -121,8 +121,22 @@ class hex:
         h = hex(start_vert, end_vert_num)
         return h
 
+    def print_sides(self):
+        """
+        Creates and returns TiKZ code for numbering the edges of the hex.
+        """
+        self.edge_centers = self.vertices + self.vertices[[1, 2, 3, 4, 5, 0]]
+        self.edge_centers = self.edge_centers * 0.5
+        self.edge_tex = []
+        for n, edge in enumerate(self.edge_centers):
+            s = r'\node[draw] at (' + \
+                f'{edge[0]}, {edge[1]}'
+            s = s + ') {' + f'{n}' + '};'
+            self.edge_tex.append(s)
+        return self.edge_tex
 
-def write_latex(list_of_hexes, print_index=True):
+
+def write_latex(list_of_hexes, print_index=True, print_edges=False):
     filename = 'Drom'
     count = 0
     with open(f"{filename}.tex", 'w') as f:
@@ -132,6 +146,9 @@ def write_latex(list_of_hexes, print_index=True):
             if print_index:
                 f.write(h.create_center_tex(count) + "\n")
             count += 1
+        if print_edges:
+            for edge in list_of_hexes[print_edges].print_edges:
+                f.write(edge + "\n")
         f.write(POSTAMBLE)
     try:
         FNULL = open(os.devnull, 'w')
@@ -159,12 +176,12 @@ def main():
 start_hex = hex()
 
 h1 = start_hex.add_hex_under()
-h2 = h1.add_hex_bottom_right()
-h3 = h2.add_hex_top_right()
-h4 = h3.add_hex_over()
-h5 = h4.add_hex_top_left()
-h6 = h4.add_hex_bottom_left()
+# h2 = h1.add_hex_bottom_right()
+# h3 = h2.add_hex_top_right()
+# h4 = h3.add_hex_over()
+# h5 = h4.add_hex_top_left()
+# h6 = h4.add_hex_bottom_left()
 
 
-list_of_hexes = [start_hex, h1, h2, h3, h4, h5, h6]
+list_of_hexes = [start_hex] #, h1, h2, h3, h4, h5, h6]
 write_latex(list_of_hexes)

@@ -209,25 +209,28 @@ def main():
         elif i == "print_full":
             write_latex(list_of_hexes, print_index=False, print_edges=None)
 
+        elif i == "show_all":
+            write_latex(list_of_hexes, print_edges=current_hex_num)
+
         else:
             print("input not recognized. Try again\n")
 
 
 def print_help():
     print("Welcome to the Drom Editor. Input one of the following commands:")
-    print("0: Create a hex below the current")
-    print("1: Create a hex to the bottom right of the current")
-    print("2: Create a hex to the top right of the current")
-    print("3: Create a hex above the current")
-    print("4: Create a hex to the top left of the current")
-    print("5: Create a hex to the bottom left of the current")
-    print("show_all: show the index of all hexes")
-    print("print_full: Print the full Drom with no indices")
+    print("0:           Create a hex below the current")
+    print("1:           Create a hex to the bottom right of the current")
+    print("2:           Create a hex to the top right of the current")
+    print("3:           Create a hex above the current")
+    print("4:           Create a hex to the top left of the current")
+    print("5:           Create a hex to the bottom left of the current")
+    print("show_all:    show the index of all hexes")
+    print("print_full:  Print the full Drom with no indices")
     print("remove_last: deletes the last placed hex")
-    print("remove: initiates removing of a hex")
-    print("change_hex: Initiates the changing of the current hex")
-    print("help: Show this message")
-    print("quit: Quits the program")
+    print("remove:      initiates removing of a hex")
+    print("change_hex:  Initiates the changing of the current hex")
+    print("help:        Show this message")
+    print("quit:        Quits the program")
 
 start_hex = hex()
 

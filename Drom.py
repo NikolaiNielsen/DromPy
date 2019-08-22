@@ -14,6 +14,10 @@ POSTAMBLE = r"""\end{tikzpicture}
 
 
 class hex:
+    """
+    The main class for the program - hosts the vertices, creates the .tex code,
+    Has the ability to create hexes to the board.
+    """
     def __init__(self, start=np.array([[0], [0]]).T, i=0):
         self.own_verts = np.array([[0, 1, 1.5, 1, 0, -0.5],
                                    [0, 0, np.sqrt(3)/2, np.sqrt(3),
@@ -24,16 +28,29 @@ class hex:
         self._create_tex()
 
     def set_start(self, start, i=0):
+        """
+        Sets the starting position of the hex. Making the i'th vertex' absolute
+        coordinate equal to start.
+        """
         self.start = start - self.own_verts[i]
 
     def _create_hex(self):
+        """
+        Calculates the absolute position of the hex
+        """
         self.vertices = self.own_verts + self.start
 
-    def print_verts(self):
+    def _print_verts(self):
+        """
+        Prints the absolute position of the vertices
+        """
         for i in self.vertices:
             print(f'({i[0]}, {i[1]})')
 
     def _create_tex(self):
+        """
+        Creates the TiKZ code for the hex.
+        """
         s = "\draw "
         for i in self.vertices:
             s = s + f'({i[0]}, {i[1]}) -- '
@@ -42,12 +59,21 @@ class hex:
         self.tex = s
 
     def get_vert(self, i):
+        """
+        Returns the absolute postion of the i'th vertex
+        """
         return self.vertices[i].reshape((1, 2))
 
     def _create_center(self):
+        """
+        Calculates the coordinate of the center of hex.
+        """
         self.center = self.start + np.array([[0.5, np.sqrt(3)/2]])
 
     def create_center_tex(self, text):
+        """
+        Creates TiKZ code for text at the center of the hex
+        """
         s = r'\node[draw] at (' + f'{self.center[0, 0]}, {self.center[0, 1]}'
         s = s + ') {' + f'{text}' + '};'
         self.center_tex = s
@@ -84,6 +110,11 @@ class hex:
         return h
 
     def add_hex(self, num):
+        """
+        Generalizations of the above functions. Returns a hex bordering edge
+        "num". Num starts at bottom and goes in the positive direction (bottom,
+        bottom right, top right, etc).
+        """
         start_vert_num = [0, 1, 2, 4, 5, 5]
         end_vert_num = [4, 5, 0, 0, 1, 3]
         start_vert = self.get_vert(start_vert_num[num])

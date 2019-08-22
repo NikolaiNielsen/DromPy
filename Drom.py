@@ -205,7 +205,7 @@ def main():
                 current_hex = list_of_hexes[current_hex_num]
                 write_latex(list_of_hexes, print_edges=I)
             except Exception as e:
-                print("Couldn't interpret input. Back to main menu")
+                print("Couldn't interpret input. Back to main menu\n")
 
         elif i == "print_full":
             write_latex(list_of_hexes, print_index=False, print_edges=None)
@@ -218,6 +218,19 @@ def main():
             current_hex_num = last_hex_num
             current_hex = last_hex
             write_latex(list_of_hexes, print_edges=current_hex_num)
+
+        elif i == "remove":
+            print("which hex do you want to remove?")
+            I = input("> ")
+            try:
+                I = int(I)
+                list_of_hexes.pop(I)
+                if I == current_hex_num:
+                    current_hex = last_hex
+                current_hex_num = list_of_hexes.index(current_hex)
+                write_latex(list_of_hexes, print_edges=current_hex_num)
+            except Exception as e:
+                print("Couldn't interpret input. Back to main menu\n")
 
         else:
             print("input not recognized. Try again\n")

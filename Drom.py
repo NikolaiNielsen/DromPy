@@ -185,7 +185,8 @@ def main():
                  current_hex.add_hex_top_right, current_hex.add_hex_over,
                  current_hex.add_hex_top_left, current_hex.add_hex_bottom_left]
             new_hex = d[num]()
-
+            last_hex = current_hex
+            last_hex_num = current_hex_num
             list_of_hexes.append(new_hex)
             current_hex_num = len(list_of_hexes)-1
             current_hex = new_hex
@@ -210,6 +211,12 @@ def main():
             write_latex(list_of_hexes, print_index=False, print_edges=None)
 
         elif i == "show_all":
+            write_latex(list_of_hexes, print_edges=current_hex_num)
+
+        elif i == "remove_last":
+            list_of_hexes.pop()
+            current_hex_num = last_hex_num
+            current_hex = last_hex
             write_latex(list_of_hexes, print_edges=current_hex_num)
 
         else:

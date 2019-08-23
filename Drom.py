@@ -55,7 +55,7 @@ class hex:
         """
         Creates the TiKZ code for the hex.
         """
-        s = "\draw "
+        s = "\draw [line width=1mm]"
         for i in self.vertices:
             s = s + f'({i[0]}, {i[1]}) -- '
         else:

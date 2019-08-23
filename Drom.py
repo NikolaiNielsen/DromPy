@@ -4,7 +4,11 @@ import subprocess
 
 PREAMBLE = r"""\documentclass[tikz]{standalone}
 \begin{document}
-\begin{tikzpicture}
+
+% Set the scale to 1.9.
+% The scale parameter sets the side lengths of the hexes in cm.
+% A scale of 1 (the defualt) corresponds to side lengths of 1cm, for example.
+\begin{tikzpicture}[scale=1.9]
 
 """
 

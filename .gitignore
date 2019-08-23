@@ -28,3 +28,6 @@ __pycache__/
 
 # We don't actually want the Drom.tex file either
 *.tex
+
+# We don't want gimp files
+*.xcf

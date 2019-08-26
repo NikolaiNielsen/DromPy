@@ -192,21 +192,21 @@ def read_tex(filename):
             a = hex(start, i=0)
             hexes.append(a)
 
-        current_hex = hexes[-1]
-        current_hex_num = len(hexes) - 1
-        return hexes, current_hex, current_hex_num
+        return hexes
 
 
-def main():
+def main(list_of_hexes=None):
     """
     Initiates the process of creating a Drom. Requires pdflatex to be installed
     and accessible with the subprocess module. Currently tested on Debian.
     """
     # Create the starting hex and initialize all variables
-    start_hex = hex()
-    list_of_hexes = [start_hex]
-    current_hex_num = 0
-    current_hex = list_of_hexes[current_hex_num]
+    if list_of_hexes is None:
+        start_hex = hex()
+        list_of_hexes = [start_hex]
+
+    current_hex = list_of_hexes[-1]
+    current_hex_num = len(list_of_hexes) - 1
 
     # Create the starting Drom, print the help and start the loop
     write_latex(list_of_hexes, print_index=True, print_edges=0)

@@ -187,7 +187,8 @@ def read_tex(filename):
             splits = line.split('(')
 
             # We only need the x- and y-coordinates for the first vertex.
-            x, y = splits[1][:-5].split(', ')
+            x, y = (float(n) for n in splits[1][:-5].split(', '))
+
             start = np.array([[x, y]])
             a = hex(start, i=0)
             hexes.append(a)
@@ -309,6 +310,9 @@ def main(list_of_hexes=None):
             list_of_hexes = read_tex(filename)
             current_hex = list_of_hexes[-1]
             current_hex_num = len(list_of_hexes) - 1
+            write_latex(list_of_hexes, filename, print_index=True,
+                        print_edges=current_hex_num)
+
 
         else:
             print("input not recognized. Try again\n")

@@ -294,12 +294,21 @@ def main(list_of_hexes=None):
                 # Again with the Pokèmon exception. Soz.
                 print("Couldn't interpret input. Back to main menu\n")
 
-        elif i == "backup":
+        elif i == "save":
             print("What do you want the filename to be?")
             print("(don't include file extension)")
             filename = input("> ")
             write_latex(list_of_hexes, filename, print_index=False,
                         print_edges=None)
+
+        elif i == "load":
+            print(
+                "What file do you wish to load (don't include .tex extension)"
+                )
+            filename = input("> ") + ".tex"
+            list_of_hexes = read_tex(filename)
+            current_hex = list_of_hexes[-1]
+            current_hex_num = len(list_of_hexes) - 1
 
         else:
             print("input not recognized. Try again\n")
@@ -318,7 +327,8 @@ def print_help():
     print("remove_last: deletes the last placed hex")
     print("remove:      initiates removing of a hex")
     print("change_hex:  Initiates the changing of the current hex")
-    print("backup:      starts backup process")
+    print("save:        saves the current Drom")
+    print("load:        loads a Drom from a .tex file")
     print("help:        Show this message")
     print("quit:        prints the full drom and quits the program")
 

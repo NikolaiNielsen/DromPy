@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import numpy as np
 import os
 import subprocess
@@ -9,7 +11,6 @@ PREAMBLE = r"""\documentclass[tikz]{standalone}
 % The scale parameter sets the side lengths of the hexes in cm.
 % A scale of 1 (the defualt) corresponds to side lengths of 1cm, for example.
 \begin{tikzpicture}[scale=1.9]
-
 """
 
 POSTAMBLE = r"""\end{tikzpicture}

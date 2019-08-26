@@ -310,9 +310,9 @@ def main(list_of_hexes=None):
             list_of_hexes = read_tex(filename)
             current_hex = list_of_hexes[-1]
             current_hex_num = len(list_of_hexes) - 1
+            filename = "Drom"
             write_latex(list_of_hexes, filename, print_index=True,
                         print_edges=current_hex_num)
-
 
         else:
             print("input not recognized. Try again\n")

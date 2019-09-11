@@ -130,7 +130,7 @@ class hex:
         start_vert_num = [0, 1, 2, 4, 5, 5]
         end_vert_num = [4, 5, 0, 0, 1, 3]
         start_vert = self.get_vert(start_vert_num[num])
-        h = hex(start_vert, end_vert_num)
+        h = hex(start_vert, end_vert_num[num])
         return h
 
     def print_edges(self):
@@ -248,10 +248,7 @@ def main(list_of_hexes=None):
         elif i in ["0", "1", "2", "3", "4", "5"]:
             # Adds a new hex
             num = int(i)
-            d = [current_hex.add_hex_under, current_hex.add_hex_bottom_right,
-                 current_hex.add_hex_top_right, current_hex.add_hex_over,
-                 current_hex.add_hex_top_left, current_hex.add_hex_bottom_left]
-            new_hex = d[num]()
+            new_hex = current_hex.add_hex(num)
 
             # Sets the "last_hex" stuff. Used whem removing hexes
             last_hex = current_hex

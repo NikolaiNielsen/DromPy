@@ -28,6 +28,19 @@ class hex:
                                    [0, 0, np.sqrt(3)/2, np.sqrt(3),
                                     np.sqrt(3), np.sqrt(3)/2]]).T
         self.thicc = [False] * 6
+        self.R = np.array([[1, np.sqrt(3)], [-np.sqrt(3), 1]]) / 2
+        self.x = np.array([[1, 0],
+                           [0.5, np.sqrt(3)/2],
+                           [-0.5, np.sqrt(3)/2],
+                           [-1, 0],
+                           [-0.5, -np.sqrt(3)/2],
+                           [0.5, -np.sqrt(3)/2]])
+        self.thickness = 2
+        # The extra factor is the thickness of the line (in cm), divided by
+        # 2*sqrt(3). We also need an extra factor of 1/2 because of LaTeX being
+        # weird.  
+        self.x_thicc = self.x * self.thickness/(4*np.sqrt(3)*10)
+        self.x_thin = self.x/(40*np.sqrt(3))
         self.set_start(start, i)
         self._create_center()
         self._create_hex()
@@ -58,16 +71,19 @@ class hex:
         Creates the TiKZ code for the hex.
         """
         sthin = "\draw [line width=1mm]"
-        sthicc = "\draw [line width=3mm]"
+        sthicc = f"\draw [line width={self.thickness}mm]"
+        num = 1/self.thickness
         s_list = []
         for n, i in enumerate(self.vertices):
             s = sthicc if self.thicc[n] else sthin
+            x = self.x_thicc[n] if self.thicc[n] else self.x_thin[n]
             try:
                 next_vert = self.vertices[n+1]
             except IndexError as e:
                 next_vert = self.vertices[0]
-
-            s = s + f'({i[0]}, {i[1]}) -- ({next_vert[0]}, {next_vert[1]});'
+            this = i - x
+            next_ = next_vert + x
+            s = s + f'({this[0]}, {this[1]}) -- ({next_[0]}, {next_[1]});'
             s_list.append(s)
         self.tex = s_list
 

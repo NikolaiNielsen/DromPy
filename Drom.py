@@ -27,6 +27,7 @@ class hex:
         self.own_verts = np.array([[0, 1, 1.5, 1, 0, -0.5],
                                    [0, 0, np.sqrt(3)/2, np.sqrt(3),
                                     np.sqrt(3), np.sqrt(3)/2]]).T
+        self.thicc = [True] * 6
         self.set_start(start, i)
         self._create_center()
         self._create_hex()
@@ -74,6 +75,12 @@ class hex:
         Calculates the coordinate of the center of hex.
         """
         self.center = self.start + np.array([[0.5, np.sqrt(3)/2]])
+        self.neighbour_center = self.center + np.array([[0, -np.sqrt(3)],
+                                                        [1.5, -np.sqrt(3)/2],
+                                                        [1.5, np.sqrt(3)/2],
+                                                        [0, np.sqrt(3)],
+                                                        [-1.5, np.sqrt(3)/2],
+                                                        [-1.5, -np.sqrt(3)/2]])
 
     def create_center_tex(self, text):
         """
@@ -139,6 +146,18 @@ class hex:
             s = s + ') {' + f'{n}' + '};'
             self.edge_tex.append(s)
         return self.edge_tex
+
+    def check_neighbours(self, all_centers):
+        """
+        Checks whether or not there are neighbouring hexes. Sets line widths
+        accordingly.
+        """
+        for n, neigh in enumerate(self.neighbour_center):
+            # Check if the neighbour is close to any center. At least one full
+            # row must be True.
+            val = np.isclose(neigh, all_centers).all(axis=1).any()
+            # Thicc is "not val" - if we have a neighbour, we want a thin line
+            self.thicc[n] = not val
 
 
 def write_latex(list_of_hexes, filename="Drom", print_index=True,

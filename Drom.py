@@ -27,7 +27,7 @@ class hex:
         self.own_verts = np.array([[0, 1, 1.5, 1, 0, -0.5],
                                    [0, 0, np.sqrt(3)/2, np.sqrt(3),
                                     np.sqrt(3), np.sqrt(3)/2]]).T
-        self.thicc = [True] * 6
+        self.thicc = [False] * 6
         self.set_start(start, i)
         self._create_center()
         self._create_hex()
@@ -57,12 +57,19 @@ class hex:
         """
         Creates the TiKZ code for the hex.
         """
-        s = "\draw [line width=1mm]"
-        for i in self.vertices:
-            s = s + f'({i[0]}, {i[1]}) -- '
-        else:
-            s = s[:-4] + f"-- ({self.start[0,0]}, {self.start[0,1]});"
-        self.tex = s
+        sthin = "\draw [line width=1mm]"
+        sthicc = "\draw [line width=3mm]"
+        s_list = []
+        for n, i in enumerate(self.vertices):
+            s = sthicc if self.thicc[n] else sthin
+            try:
+                next_vert = self.vertices[n+1]
+            except IndexError as e:
+                next_vert = self.vertices[0]
+
+            s = s + f'({i[0]}, {i[1]}) -- ({next_vert[0]}, {next_vert[1]});'
+            s_list.append(s)
+        self.tex = s_list
 
     def get_vert(self, i):
         """
@@ -158,6 +165,7 @@ class hex:
             val = np.isclose(neigh, all_centers).all(axis=1).any()
             # Thicc is "not val" - if we have a neighbour, we want a thin line
             self.thicc[n] = not val
+        self._create_tex()
 
 
 def write_latex(list_of_hexes, filename="Drom", print_index=True,
@@ -166,7 +174,8 @@ def write_latex(list_of_hexes, filename="Drom", print_index=True,
         f.write(PREAMBLE)
         for count, h in enumerate(list_of_hexes):
             f.write(r'%hex' + "\n")
-            f.write(h.tex + "\n")
+            for tex in h.tex:
+                f.write(tex + "\n")
             if print_index:
                 f.write(h.create_center_tex(count) + "\n")
         if isinstance(print_edges, int):
@@ -245,6 +254,7 @@ def main(list_of_hexes=None):
 
         if i == "quit":
             # Prints full Drom and quits program.
+            update_edges(list_of_hexes)
             write_latex(list_of_hexes, print_index=False, print_edges=None)
             loop = False
 
@@ -325,6 +335,7 @@ def main(list_of_hexes=None):
             print("What do you want the filename to be?")
             print("(don't include file extension)")
             filename = input("> ")
+            update_edges(list_of_hexes)
             write_latex(list_of_hexes, filename, print_index=False,
                         print_edges=None)
 

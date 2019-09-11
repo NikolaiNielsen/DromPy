@@ -283,6 +283,10 @@ def main(list_of_hexes=None):
         elif i == "show_all":
             # Generate pdf showing hex indices and current hex edges
             write_latex(list_of_hexes, print_edges=current_hex_num)
+            centres = np.vstack([h.center for h in list_of_hexes])
+            for h in list_of_hexes:
+                h.check_neighbours(centres)
+                print(h.thicc)
 
         elif i == "remove_last":
             # Removes the last placed hex
